@@ -28,7 +28,7 @@ plot_dir = rootdir + "/plots"
 model_dir = rootdir + "/models"
 
 # Get test dataset
-image_size = (256, 256)
+image_size = (64,64)
 test_dataset = get_dataset(test_dir)
 
 # Get model

@@ -35,7 +35,7 @@ for directory in [plot_dir, model_dir]:
 
 # Set some hyperparameters
 batch_size = 32
-image_size = (256, 256)
+image_size = (64,64)
 epochs = 10 
 model_name = "model1"
 
@@ -62,12 +62,9 @@ fig.savefig(plot_dir + "/image_check.png", bbox_inches = "tight", dpi = 300)
 training_dataset = training_dataset.cache().prefetch(buffer_size=tf.data.AUTOTUNE)
 validation_dataset = validation_dataset.cache().prefetch(buffer_size=tf.data.AUTOTUNE)
 
-'''
-resize_and_rescale = tf.keras.Sequential([
-    #layers.experimental.preprocessing.Resizing(image_size),
-    layers.experimental.preprocessing.Rescaling(1./255),
+resize = tf.keras.Sequential([
+    layers.Resizing(*image_size)
     ])
-    '''
 
 rescale = tf.keras.Sequential([
     layers.Rescaling(1./255)
@@ -83,6 +80,7 @@ data_augmentation = tf.keras.Sequential([
 input_shape = (batch_size, ) + image_size + (3,)
 
 model = models.Sequential([
+    #resize,
     rescale,
     layers.Conv2D(32, (3, 3), activation='relu', input_shape=input_shape), 
     layers.MaxPooling2D((2, 2)), 
