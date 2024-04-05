@@ -16,9 +16,9 @@ while true; do
   echo "\nTesting Pokémon: $random_pokemon"
   python predict_pokemon.py data/test/$random_pokemon/$random_image
 
-  #read -p "Would you like to continue testing? (y/n)" yn
-  #case $yn in
-  #    [Yy]* ) continue;;
-  #esac
-  #exit
+  read -p "Would you like to continue testing? (y/n)" yn
+  case $yn in
+      [Yy]* ) continue;;
+  esac
+  exit
 done
