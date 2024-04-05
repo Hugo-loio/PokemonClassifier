@@ -71,15 +71,17 @@ dataset_dir = datadir + "/PokemonData"
 if(os.path.isdir(datadir)):
     shutil.rmtree(datadir)
 
-os.system("kaggle datasets download -d lantian773030/pokemonclassification")
+#os.system("kaggle datasets download -d lantian773030/pokemonclassification")
+os.system("kaggle datasets download -d bhawks/pokemon-generation-one-22k")
 
 os.mkdir(datadir)
 
 # Unzip archive
-shutil.unpack_archive(rootdir + "/pokemonclassification.zip", datadir)
+#shutil.unpack_archive(rootdir + "/pokemonclassification.zip", datadir)
+shutil.unpack_archive(rootdir + "/pokemon-generation-one-22k.zip", datadir)
 
 # Cleanup data
-shutil.rmtree(dataset_dir + "/Alolan Sandslash")
+#shutil.rmtree(dataset_dir + "/Alolan Sandslash")
 delete_files_with_wrong_extension()
 
 training_dir = datadir + "/training"

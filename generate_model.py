@@ -71,8 +71,8 @@ normalize = tf.keras.Sequential([layers.Normalization()])
 data_augmentation = tf.keras.Sequential([
     layers.RandomFlip("horizontal_and_vertical"),
     layers.RandomRotation(0.2),
-    layers.RandomContrast(0.2),
-    layers.RandomZoom(0.2)
+    #layers.RandomContrast(0.2),
+    #layers.RandomZoom(0.2)
     ])
 
 input_shape = (batch_size, ) + image_size + (3,)
@@ -98,10 +98,10 @@ model = models.Sequential([
     layers.ReLU(),
     layers.MaxPooling2D((2, 2)),
 
-    #layers.Conv2D(128, (3, 3)),
-    #layers.BatchNormalization(),
-    #layers.ReLU(),
-    #layers.MaxPooling2D((2, 2)),
+    layers.Conv2D(256, (3, 3)),
+    layers.BatchNormalization(),
+    layers.ReLU(),
+    layers.MaxPooling2D((2, 2)),
 
     layers.Flatten(),
 
