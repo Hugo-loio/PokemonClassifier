@@ -34,7 +34,7 @@ model = load_model(model_dir + '/' + model_name + '.h5')
 model.summary()
 
 # Get test dataset
-image_size = model.layers[0].output_shape[1:3]
+image_size = (100,100)
 test_dataset = get_dataset(test_dir)
 
 # Evaluate test dataset

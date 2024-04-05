@@ -34,7 +34,7 @@ model_name = 'final_cnn_model'
 model = load_model(model_dir + '/' + model_name + '.h5')
 #model.summary()
 
-image_size = model.layers[0].output_shape[1:3]
+image_size = (100,100)
 
 if(len(sys.argv) == 1):
     print("Please input a path for an image")
