@@ -15,7 +15,6 @@ def preprocess_image(image_path):
     img = tf.io.read_file(image_path)
     img = tf.image.decode_image(img, channels=3)  # Decode the image with 3 channels (RGB)
     img = tf.image.resize(img, [*image_size])  # Resize the image
-    img = tf.cast(img, tf.float32) / 255.0  # Normalize pixel values to [0, 1]
     img = tf.expand_dims(img, axis=0) # Add batch dimension
     return img
 
@@ -38,6 +37,9 @@ if(len(sys.argv) == 1):
 
 image_path = sys.argv[1]
 image = preprocess_image(image_path)
+
+#plt.imshow(image[0].numpy().astype("uint8"))
+#plt.show()
 
 prediction = model.predict(image)
 class_names = sorted(os.listdir(datadir + "/training"))

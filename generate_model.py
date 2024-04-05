@@ -36,7 +36,7 @@ for directory in [plot_dir, model_dir]:
 # Set some hyperparameters
 batch_size = 32
 image_size = (64,64)
-epochs = 10 
+epochs = 20 
 model_name = "model2"
 
 # Get datasets and classes
@@ -76,37 +76,39 @@ data_augmentation = tf.keras.Sequential([
     ])
 
 input_shape = (batch_size, ) + image_size + (3,)
+padding = 'same'
 
 model = models.Sequential([
     #resize,
     rescale,
     #normalize,
     data_augmentation,
-    layers.Conv2D(32, (3,3), input_shape=input_shape), 
+    layers.Conv2D(32, (3,3), input_shape=input_shape, padding=padding), 
     layers.BatchNormalization(),
     layers.ReLU(),
     layers.MaxPooling2D((2, 2)),
-    #layers.Dropout(0.25), 
 
-    layers.Conv2D(64, (3, 3)),
+    layers.Conv2D(64, (3, 3), padding = padding),
     layers.BatchNormalization(),
     layers.ReLU(),
     layers.MaxPooling2D((2, 2)),
-    #layers.Dropout(0.25),  
     
-    layers.Conv2D(128, (3, 3)),
+    layers.Conv2D(128, (3, 3), padding = padding),
     layers.BatchNormalization(),
     layers.ReLU(),
     layers.MaxPooling2D((2, 2)),
-    #layers.Dropout(0.25),  
 
-    layers.Conv2D(128, (3, 3)),
-    layers.BatchNormalization(),
-    layers.ReLU(),
-    layers.MaxPooling2D((2, 2)),
-    #layers.Dropout(0.25),  
+    #layers.Conv2D(128, (3, 3)),
+    #layers.BatchNormalization(),
+    #layers.ReLU(),
+    #layers.MaxPooling2D((2, 2)),
 
     layers.Flatten(),
+
+    layers.Dense(1024, activation=None),
+    layers.BatchNormalization(),
+    layers.ReLU(),
+    layers.Dropout(0.5),  # Dropout with a dropout rate of 50%   
 
     layers.Dense(512, activation=None),
     layers.BatchNormalization(),
