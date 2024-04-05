@@ -1,4 +1,7 @@
 plots
 data
 models
+!models/final_cnn_model.h5
+!models/final_transfer_model.h5
 *.zip
+*.pdf

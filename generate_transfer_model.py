@@ -36,9 +36,9 @@ for directory in [plot_dir, model_dir]:
 # Set some hyperparameters
 batch_size = 32
 image_size = (100,100)
-epochs = 15
+epochs = 15 
 padding = 'valid'
-model_name = "final_cnn_model"
+model_name = "final_transfer_model"
 
 # Get datasets and classes
 training_dataset = get_dataset(training_dir)
@@ -74,32 +74,16 @@ data_augmentation = tf.keras.Sequential([
     layers.RandomZoom(0.2)
     ])
 
-input_shape = (batch_size, ) + image_size + (3,)
+input_shape =   image_size + (3,)
+
+# Load pretrained convolutional base (e.g., VGG16)
+conv_base = tf.keras.applications.VGG16(weights='imagenet', include_top=False, input_shape=input_shape)
+
+# Freeze the convolutional base
+conv_base.trainable = False
 
 model = models.Sequential([
-    resize,
-    rescale,
-    #data_augmentation,
-
-    layers.Conv2D(32, (3,3), input_shape=input_shape, padding=padding), 
-    layers.BatchNormalization(),
-    layers.ReLU(),
-    layers.MaxPooling2D((2, 2)),
-
-    layers.Conv2D(64, (3, 3), padding = padding),
-    layers.BatchNormalization(),
-    layers.ReLU(),
-    layers.MaxPooling2D((2, 2)),
-    
-    layers.Conv2D(128, (3, 3), padding = padding),
-    layers.BatchNormalization(),
-    layers.ReLU(),
-    layers.MaxPooling2D((2, 2)),
-
-    layers.Conv2D(256, (3, 3), padding = padding),
-    layers.BatchNormalization(),
-    layers.ReLU(),
-    layers.MaxPooling2D((2, 2)),
+    conv_base,
 
     layers.Flatten(),
     layers.Dropout(0.5), 
@@ -121,7 +105,7 @@ model.build(input_shape)
 model.summary()
 
 model.compile(
-    optimizer='Adam',
+    optimizer=optimizers.Adam(),
     loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False),
     metrics=['accuracy']
 )
@@ -154,6 +138,3 @@ fig.savefig(plot_dir + "/" + model_name + "_loss.pdf", bbox_inches = "tight")
 test_loss, test_acc = model.evaluate(test_dataset, verbose=2)
 
 model.save(model_dir + "/" + model_name + ".h5")
-
-#with open(model_dir + "/" + model_name + "_history.pickle", 'wb') as pickle_file:
-#    pickle.dump(history, pickle_file)

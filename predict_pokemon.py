@@ -30,7 +30,7 @@ plot_dir = rootdir + "/plots"
 model_dir = rootdir + "/models"
 
 # Get model
-model_name = 'model2'
+model_name = 'final_cnn_model'
 model = load_model(model_dir + '/' + model_name + '.h5')
 #model.summary()
 

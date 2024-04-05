@@ -28,33 +28,18 @@ plot_dir = rootdir + "/plots"
 model_dir = rootdir + "/models"
 
 # Get model
-model_name = 'model2'
+model_name = 'final_cnn_model'
+print("Testing model:", model_name)
 model = load_model(model_dir + '/' + model_name + '.h5')
+model.summary()
 
 # Get test dataset
 image_size = model.layers[0].output_shape[1:3]
 test_dataset = get_dataset(test_dir)
 
-# Get history
-with open(model_dir + "/" + model_name + "_history.pickle", 'rb') as pickle_file:
-    history = pickle.load(pickle_file)
-
 # Evaluate test dataset
 print("Test evaluation:")
 model.evaluate(test_dataset, verbose=2)
 
-# Plot accuracy
-fig, ax = plt.subplots()
-ax.plot(history.history['accuracy'], label='training')
-ax.plot(history.history['val_accuracy'], label = 'validation')
-ax.set(xlabel = 'Epoch', ylabel = 'Accuracy')
-ax.legend()
-fig.savefig(plot_dir + "/" + model_name + "_accuracy.pdf", bbox_inches = "tight")
-
-# Plot loss
-fig, ax = plt.subplots()
-ax.plot(history.history['loss'], label = 'training')
-ax.plot(history.history['val_loss'], label = 'validation')
-ax.set(xlabel = 'Epoch', ylabel = 'Loss')
-ax.legend()
-fig.savefig(plot_dir + "/" + model_name + "_loss.pdf", bbox_inches = "tight")
+#with open(model_dir + "/" + model_name + "_history.pickle", 'rb') as pickle_file:
+#    history = pickle.load(pickle_file)
