@@ -26,6 +26,7 @@ Once the model is generated, the history plots of fitting will be saved in the g
 
 A model based on transfer learning from the VGG16 model can also be generated with `python generate_transfer_model.py`.
 
+The model generation takes a couple of minutes to run in an NVDIA RTX A1000.
 ## Testing
 
 Saved models can be tested against the testing dataset using the `test_model.py` script.
@@ -33,5 +34,5 @@ To use the models for prediction run `python predict_pokemon.py <path_to_image>`
 The script `predict_random_pokemon.sh` loops through random Pokémon in the testing dataset and uses the model indicated in `predict_pokemon.py`.
 
 In these python scripts, the variable `model_name` might needs to be changed to use different models. 
-By default, it is set to `'final_cnn_model'`, corresponding to the pre-trained convolution neural network saved in this repo.
+By default, it is set to `'final_cnn_model'`, corresponding to the default name of the convolution neural network model.
 See which models are available in the `models` directory.
