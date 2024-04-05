@@ -55,3 +55,18 @@ confidence = prediction[0][predicted_index]
 
 print("Predicted Pokemon:", predicted_class)
 print("Confidence:", confidence)
+
+tested_image = full_resolution_image(image_path)
+predicted_image = full_resolution_image(datadir + "/images/" + predicted_class.lower() + ".png")
+
+fig = plt.figure()
+ax = fig.add_subplot(1,2,1)
+ax.imshow(tested_image.numpy().astype("uint8"))
+ax.set_title("Tested Image")
+ax.axis("off")
+ax = fig.add_subplot(1,2,2)
+ax.imshow(predicted_image.numpy().astype("uint8"))
+fig.set_facecolor("white")
+ax.set_title("Predicted Pokémon")
+ax.axis("off")
+plt.show()

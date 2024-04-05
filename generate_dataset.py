@@ -61,6 +61,14 @@ def split_data():
     print("Validating:", 100*count_validation/count_total, "%")
     print("Testing:", 100 - 100*(count_validation + count_training)/count_total, "%")
     
+def generate_image_per_pokemon():
+    pokemons = os.listdir(test_dir)
+    images = os.listdir(image_dir)
+    for pokemon in pokemons:
+        image = pokemon.lower() + ".png"
+        images.remove(image)
+    for image in images:
+        os.remove(image_dir + "/" + image)
 
 # Call the function
 
@@ -73,12 +81,14 @@ if(os.path.isdir(datadir)):
 
 #os.system("kaggle datasets download -d lantian773030/pokemonclassification")
 os.system("kaggle datasets download -d bhawks/pokemon-generation-one-22k")
+os.system("kaggle datasets download -d vishalsubbiah/pokemon-images-and-types")
 
 os.mkdir(datadir)
 
 # Unzip archive
 #shutil.unpack_archive(rootdir + "/pokemonclassification.zip", datadir)
 shutil.unpack_archive(rootdir + "/pokemon-generation-one-22k.zip", datadir)
+shutil.unpack_archive(rootdir + "/pokemon-images-and-types.zip", datadir)
 
 # Cleanup data
 #shutil.rmtree(dataset_dir + "/Alolan Sandslash")
@@ -96,3 +106,11 @@ validation = 0.15 # 15 % of the data
 test = 0.04 # 5 % of the data
 
 split_data()
+
+shutil.rmtree(dataset_dir)
+os.remove(datadir + "/pokemon.csv")
+
+image_dir = datadir + "/images"
+shutil.move(image_dir + "/mr-mime.png", image_dir + "/mrmime.png")
+
+generate_image_per_pokemon()

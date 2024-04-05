@@ -15,6 +15,7 @@ A working local environment with the following libraries:
 To download the data set and split it into training, validation and testing data sets run `python generate_dataset.py`. 
 A local installation of the Kaggle API is necessary.
 1.31 Gb of data will be download from [Ben Hawks'](https://www.kaggle.com/data sets/bhawks/pokemon-generation-one-22k/data) data set.
+Additionally, a small data set of 4Mb from user [Vishal Subbiah](vishalsubbiah/pokemon-images-and-types) is downloaded to provide a clean image for each Pokémon, for presentation purposes.
 
 ## Model generation
 

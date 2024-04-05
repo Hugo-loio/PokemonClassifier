@@ -35,7 +35,7 @@ for directory in [plot_dir, model_dir]:
 
 # Set some hyperparameters
 batch_size = 32
-image_size = (64,64)
+image_size = (128, 128)
 epochs = 20 
 model_name = "model2"
 
@@ -71,18 +71,19 @@ normalize = tf.keras.Sequential([layers.Normalization()])
 data_augmentation = tf.keras.Sequential([
     layers.RandomFlip("horizontal_and_vertical"),
     layers.RandomRotation(0.2),
-    #layers.RandomContrast(0.2),
-    #layers.RandomZoom(0.2)
+    layers.RandomContrast(0.2),
+    layers.RandomZoom(0.2)
     ])
 
 input_shape = (batch_size, ) + image_size + (3,)
 padding = 'same'
 
 model = models.Sequential([
-    #resize,
+    resize,
     rescale,
     #normalize,
-    data_augmentation,
+    #data_augmentation,
+
     layers.Conv2D(32, (3,3), input_shape=input_shape, padding=padding), 
     layers.BatchNormalization(),
     layers.ReLU(),
@@ -108,12 +109,12 @@ model = models.Sequential([
     layers.Dense(1024, activation=None),
     layers.BatchNormalization(),
     layers.ReLU(),
-    layers.Dropout(0.5),  # Dropout with a dropout rate of 50%   
+    layers.Dropout(0.5),  
 
     layers.Dense(512, activation=None),
     layers.BatchNormalization(),
     layers.ReLU(),
-    layers.Dropout(0.5),  # Dropout with a dropout rate of 50%   
+    layers.Dropout(0.5), 
 
     layers.Dense(num_classes, activation='softmax')
     ])
