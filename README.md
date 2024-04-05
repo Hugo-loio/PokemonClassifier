@@ -14,7 +14,7 @@ A working local environment with the following libraries:
 
 To download the data set and split it into training, validation and testing data sets run `python generate_dataset.py`. 
 A local installation of the Kaggle API is necessary.
-1.31 Gb of data will be download from [Ben Hawks'](https://www.kaggle.com/datasets/bhawks/pokemon-generation-one-22k/data) data set.
+1.31 Gb of data will be downloaded from [Ben Hawks'](https://www.kaggle.com/datasets/bhawks/pokemon-generation-one-22k/data) data set.
 Additionally, a small data set of 4Mb from user [Vishal Subbiah](https://www.kaggle.com/datasets/vishalsubbiah/pokemon-images-and-types/data) is downloaded to provide a clean image for each Pokémon, for presentation purposes.
 
 ## Model generation
@@ -33,6 +33,6 @@ Saved models can be tested against the testing dataset using the `test_model.py`
 To use the models for prediction run `python predict_pokemon.py <path_to_image>`.
 The script `predict_random_pokemon.sh` loops through random Pokémon in the testing dataset and uses the model indicated in `predict_pokemon.py`.
 
-In these python scripts, the variable `model_name` might needs to be changed to use different models. 
+In these python scripts, the variable `model_name` might need to be changed to use different models. 
 By default, it is set to `'final_cnn_model'`, corresponding to the default name of the convolution neural network model.
 See which models are available in the `models` directory.
