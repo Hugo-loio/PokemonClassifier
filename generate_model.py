@@ -37,7 +37,7 @@ for directory in [plot_dir, model_dir]:
 batch_size = 32
 image_size = (64,64)
 epochs = 10 
-model_name = "model1"
+model_name = "model2"
 
 # Get datasets and classes
 training_dataset = get_dataset(training_dir)
@@ -62,19 +62,17 @@ fig.savefig(plot_dir + "/image_check.png", bbox_inches = "tight", dpi = 300)
 training_dataset = training_dataset.cache().prefetch(buffer_size=tf.data.AUTOTUNE)
 validation_dataset = validation_dataset.cache().prefetch(buffer_size=tf.data.AUTOTUNE)
 
-resize = tf.keras.Sequential([
-    layers.Resizing(*image_size)
-    ])
+resize = tf.keras.Sequential([layers.Resizing(*image_size)])
 
-rescale = tf.keras.Sequential([
-    layers.Rescaling(1./255)
-    ])
+rescale = tf.keras.Sequential([layers.Rescaling(1./255)])
+
+normalize = tf.keras.Sequential([layers.Normalization()])
 
 data_augmentation = tf.keras.Sequential([
-    layers.experimental.preprocessing.RandomFlip("horizontal_and_vertical"),
-    layers.experimental.preprocessing.RandomRotation(0.2),
-    layers.experimental.preprocessing.RandomContrast(0.2),
-    layers.experimental.preprocessing.RandomZoom(0.2)
+    layers.RandomFlip("horizontal_and_vertical"),
+    layers.RandomRotation(0.2),
+    layers.RandomContrast(0.2),
+    layers.RandomZoom(0.2)
     ])
 
 input_shape = (batch_size, ) + image_size + (3,)
@@ -82,13 +80,39 @@ input_shape = (batch_size, ) + image_size + (3,)
 model = models.Sequential([
     #resize,
     rescale,
-    layers.Conv2D(32, (3, 3), activation='relu', input_shape=input_shape), 
-    layers.MaxPooling2D((2, 2)), 
-    layers.Conv2D(64, (3, 3), activation='relu'), 
-    layers.MaxPooling2D((2, 2)), 
-    layers.Conv2D(64, (3, 3), activation='relu'),
+    #normalize,
+    data_augmentation,
+    layers.Conv2D(32, (3,3), input_shape=input_shape), 
+    layers.BatchNormalization(),
+    layers.ReLU(),
+    layers.MaxPooling2D((2, 2)),
+    #layers.Dropout(0.25), 
+
+    layers.Conv2D(64, (3, 3)),
+    layers.BatchNormalization(),
+    layers.ReLU(),
+    layers.MaxPooling2D((2, 2)),
+    #layers.Dropout(0.25),  
+    
+    layers.Conv2D(128, (3, 3)),
+    layers.BatchNormalization(),
+    layers.ReLU(),
+    layers.MaxPooling2D((2, 2)),
+    #layers.Dropout(0.25),  
+
+    layers.Conv2D(128, (3, 3)),
+    layers.BatchNormalization(),
+    layers.ReLU(),
+    layers.MaxPooling2D((2, 2)),
+    #layers.Dropout(0.25),  
+
     layers.Flatten(),
-    layers.Dense(64, activation='relu'),
+
+    layers.Dense(512, activation=None),
+    layers.BatchNormalization(),
+    layers.ReLU(),
+    layers.Dropout(0.5),  # Dropout with a dropout rate of 50%   
+
     layers.Dense(num_classes, activation='softmax')
     ])
 

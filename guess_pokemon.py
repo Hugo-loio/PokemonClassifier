@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 def preprocess_image(image_path):
     img = tf.io.read_file(image_path)
     img = tf.image.decode_image(img, channels=3)  # Decode the image with 3 channels (RGB)
-    img = tf.image.resize(img, [64,64])  # Resize the image
+    img = tf.image.resize(img, [*image_size])  # Resize the image
     img = tf.cast(img, tf.float32) / 255.0  # Normalize pixel values to [0, 1]
     img = tf.expand_dims(img, axis=0) # Add batch dimension
     return img
@@ -26,9 +26,11 @@ plot_dir = rootdir + "/plots"
 model_dir = rootdir + "/models"
 
 # Get model
-model_name = 'model1'
+model_name = 'model2'
 model = load_model(model_dir + '/' + model_name + '.h5')
 #model.summary()
+
+image_size = model.layers[0].output_shape[1:3]
 
 if(len(sys.argv) == 1):
     print("Please input a path for an image")
@@ -43,7 +45,6 @@ class_names = sorted(os.listdir(datadir + "/training"))
 predicted_index = np.argmax(prediction)
 predicted_class = class_names[predicted_index]
 confidence = prediction[0][predicted_index]
-
 
 print("Predicted Pokemon:", predicted_class)
 print("Confidence:", confidence)
